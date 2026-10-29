@@ -3,18 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>zeroAI4S</title>
+<title>zeroAI4S - 科学应用</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", sans-serif;
-    background: #fff; color: #2b2b2b; height: 100vh; display: flex; overflow: hidden;
-  }
+  body { font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif; background: #fff; color: #2b2b2b; height: 100vh; display: flex; overflow: hidden; }
   button { font-family: inherit; cursor: pointer; border: none; background: none; }
-
+  
   /* ---------- 侧边栏 ---------- */
-  .sidebar { width: 300px; flex-shrink: 0; background: #F1F4FA; padding: 24px 20px 16px;
-             display: flex; flex-direction: column; }
+  .sidebar { width: 300px; flex-shrink: 0; background: #F1F4FA; padding: 24px 20px 16px; display: flex; flex-direction: column; }
   .side-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
   .logo { font-size: 34px; font-weight: 700; color: #1E2A78; letter-spacing: -1px; }
   .logo span { color: #3B5BFF; }
@@ -23,8 +19,7 @@
   .segment { display: flex; background: #E5E8EF; border-radius: 20px; padding: 4px; margin-bottom: 22px; }
   .segment button { flex: 1; padding: 9px 0; font-size: 17px; color: #333; border-radius: 16px; }
   .segment button.on { background: #fff; }
-  .nav button { width: 100%; text-align: left; font-size: 18px; color: #333; padding: 12px 14px;
-                border-radius: 16px; margin-bottom: 6px; display: flex; gap: 14px; }
+  .nav button { width: 100%; text-align: left; font-size: 18px; color: #333; padding: 12px 14px; border-radius: 16px; margin-bottom: 6px; display: flex; gap: 14px; }
   .nav button:hover { background: #E7EBF4; }
   .nav button.on { background: #fff; font-weight: 700; color: #111; }
   .hline { height: 1px; background: #E3E6EE; }
@@ -37,8 +32,7 @@
   .top { padding: 44px 40px 22px; border-bottom: 1px solid #E8EAF0; }
   .page-title { font-size: 42px; font-weight: 800; margin-bottom: 18px; }
   .pills { display: flex; flex-wrap: wrap; gap: 18px; }
-  .pill { height: 46px; padding: 0 22px 0 24px; border-radius: 23px; background: #F1F3F8;
-          display: flex; align-items: center; gap: 36px; font-size: 17px; font-weight: 700; color: #4A4F5C; }
+  .pill { height: 46px; padding: 0 22px 0 24px; border-radius: 23px; background: #F1F3F8; display: flex; align-items: center; gap: 36px; font-size: 17px; font-weight: 700; color: #4A4F5C; }
   .pill small { font-size: 13px; font-weight: 400; color: #8A8F9C; }
   .pill.on { background: #1F232F; color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.18); }
   .pill.on small { color: #D5D8E0; }
@@ -50,13 +44,11 @@
   .sec-en { font-size: 13px; font-weight: 600; color: #6B7280; letter-spacing: 2.5px; margin-top: 2px; }
 
   .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; }
-  .card { background: #F2F6FF; border: 1px solid #DCE6FA; border-radius: 28px; padding: 18px;
-          display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+  .card { background: #F2F6FF; border: 1px solid #DCE6FA; border-radius: 28px; padding: 18px; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
   .card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(40,80,200,.12); }
   .cover { height: 170px; border-radius: 18px; background-size: cover; background-position: center; }
   .card h3 { font-size: 22px; font-weight: 700; margin: 24px 0 12px 4px; }
-  .card p { font-size: 15px; line-height: 1.65; color: #8A8F9C; margin: 0 4px 14px; min-height: 50px;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card p { font-size: 15px; line-height: 1.65; color: #8A8F9C; margin: 0 4px 14px; min-height: 50px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .card .hline { margin: 0 4px 14px; }
   .card-foot { display: flex; align-items: center; justify-content: space-between; padding: 0 4px; }
   .org { font-size: 15px; color: #7B8190; }
@@ -67,8 +59,6 @@
     .sidebar { display: none; }
     .top, .body { padding-left: 20px; padding-right: 20px; }
     .grid { grid-template-columns: 1fr; }
-    .page-title { font-size: 32px; }
-    .pill { gap: 16px; }
   }
 </style>
 </head>
@@ -76,7 +66,7 @@
 
 <aside class="sidebar">
   <div class="side-head">
-    <div class="logo">zero2<span>x</span> Lab</div>
+    <div class="logo">zero<span>AI4S</span></div>
     <div>
       <button class="icon-btn">⌕</button><button class="icon-btn">⇤</button>
     </div>
@@ -103,17 +93,12 @@
 </main>
 
 <script>
-// image 填图片路径（如 "img/a.jpg"）即显示封面；留空则用 colors 渐变占位
 const DATA = {
   "地球科学": { en: "Earth Science", icon: "🌐", apps: [
-    { title: "Deep-time Earth", org: "之江实验室", image: "", colors: ["#C9887A", "#3A4A4A"],
-      desc: "统一组织多源地学数据，让地表、深地与深时信息在同一四维环境中实现关联表达与交互探索。", url: "#" },
-    { title: "油气勘探工作台", org: "之江实验室", image: "", colors: ["#1E3A5F", "#C98A3B"],
-      desc: "面向油气勘探数据分析与综合评价的一体化智能工作台，支持地震数据解释、井震联合建模和测井解释等专业应用。工作台可调用 GeoGPT 多模态能力。", url: "#" },
-    { title: "IRDR Research Agent", org: "IRDR", image: "", colors: ["#DDE6EE", "#1C6BB5"],
-      desc: "灾害风险综合研究智能体，辅助文献检索、数据分析与报告生成。", url: "#" }
+    { title: "Deep-time Earth", org: "之江实验室", image: "", colors: ["#C9887A", "#3A4A4A"], desc: "统一组织多源地学数据，让地表、深地与深时信息在同一四维环境中实现关联表达与交互探索。", url: "#" },
+    { title: "油气勘探工作台", org: "之江实验室", image: "", colors: ["#1E3A5F", "#C98A3B"], desc: "面向油气勘探数据分析与综合评价的一体化智能工作台，支持地震数据解释、井震联合建模和测井解释等专业应用。工作台可调用 GeoGPT 多模态能力。", url: "#" },
+    { title: "IRDR Research Agent", org: "IRDR", image: "", colors: ["#DDE6EE", "#1C6BB5"], desc: "灾害风险综合研究智能体，辅助文献检索、数据分析与报告生成。", url: "#" }
   ]},
-  // 以下为占位内容，请替换成真实数据
   "数学科学": { en: "Mathematical Science", icon: "∑", apps: [
     { title: "数学推理助手", org: "之江实验室", image: "", colors: ["#6C5CE7", "#A29BFE"], desc: "面向数学推理与证明辅助的智能工具。", url: "#" },
     { title: "符号计算工作台", org: "之江实验室", image: "", colors: ["#00B894", "#55EFC4"], desc: "支持符号推导、公式化简与可视化。", url: "#" }
@@ -129,17 +114,29 @@ const DATA = {
   ]}
 };
 
-const NAV = [["💬","新对话"],["📖","科学知识库"],["🗄","科学数据集"],["🤖","科学工具"],["〰","科学应用"]];
+// 统一导航配置 (加入了 URL)
+const NAV = [
+  ["💬","新对话", "#"],
+  ["📖","科学知识库", "library.html"],
+  ["🗄","科学数据集", "data.html"],
+  ["🤖","科学工具", "tools.html"],
+  ["〰","科学应用", "index.html"]
+];
 
 const $ = id => document.getElementById(id);
 
-// 侧边栏导航
-$("nav").innerHTML = NAV.map(([i, t]) =>
-  `<button class="${t === "科学应用" ? "on" : ""}">${i}&nbsp;&nbsp;${t}</button>`).join("");
+// 侧边栏导航渲染 (高亮"科学应用")
+$("nav").innerHTML = NAV.map(([i, t, url]) =>
+  `<button class="${t === "科学应用" ? "on" : ""}" data-url="${url}">${i}&nbsp;&nbsp;${t}</button>`).join("");
+
 $("nav").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
-  document.querySelectorAll("#nav button").forEach(x => x.classList.remove("on"));
-  b.classList.add("on");
+  if (b.dataset.url && b.dataset.url !== "#") {
+    window.location.href = b.dataset.url; // 跳转页面
+  } else {
+    document.querySelectorAll("#nav button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+  }
 });
 
 // 顶部分类胶囊
@@ -149,7 +146,6 @@ $("pills").addEventListener("click", e => {
   const b = e.target.closest(".pill"); if (b) show(b.dataset.name);
 });
 
-// 渲染某个分类
 function show(name) {
   const d = DATA[name];
   document.querySelectorAll(".pill").forEach(p => p.classList.toggle("on", p.dataset.name === name));
