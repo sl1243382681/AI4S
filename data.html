@@ -9,6 +9,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif; background: #fff; color: #2b2b2b; height: 100vh; display: flex; overflow: hidden; }
   button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  
   .sidebar { width: 300px; flex-shrink: 0; background: #F1F4FA; padding: 24px 20px 16px; display: flex; flex-direction: column; }
   .side-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
   .logo { font-size: 34px; font-weight: 700; color: #1E2A78; letter-spacing: -1px; }
@@ -25,7 +26,7 @@
   .user { font-size: 15px; color: #555; padding-top: 12px; }
 
   /* 数据集专属主区域样式 */
-  .main { flex: 1; padding: 40px; display: flex; flex-direction: column; }
+  .main { flex: 1; padding: 40px; display: flex; flex-direction: column; overflow-y: auto;}
   .tabs { border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 15px;}
   .tab-btn { font-size: 16px; font-weight: 600; color: #1D5CF5; border-bottom: 2px solid #1D5CF5; padding-bottom: 15px; margin-bottom: -16px; }
   .count { color: #999; font-size: 14px; margin-bottom: 40px; }
@@ -34,6 +35,14 @@
   .empty-icon { font-size: 120px; margin-bottom: 30px; opacity: 0.2; }
   .btn-add { background: #1D5CF5; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 15px; display: flex; align-items: center; gap: 6px;}
   .btn-add:hover { background: #1448CC; }
+
+  /* 上传后的文件列表样式 */
+  .file-list { display: none; flex-direction: column; gap: 10px; }
+  .file-item { display: flex; align-items: center; padding: 15px 20px; background: #F7F8FA; border-radius: 8px; border: 1px solid #eee; }
+  .file-icon { font-size: 24px; margin-right: 15px; }
+  .file-info { flex: 1; }
+  .file-name { font-size: 15px; font-weight: 500; color: #333; }
+  .file-size { font-size: 13px; color: #999; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -54,12 +63,19 @@
   <div class="tabs">
     <button class="tab-btn">我的数据集</button>
   </div>
-  <div class="count">共 0 个数据集</div>
+  <div class="count" id="countText">共 0 个数据集</div>
 
-  <div class="empty-state">
+  <!-- 隐藏的真实上传输入框 -->
+  <input type="file" id="fileInput" multiple style="display: none;">
+
+  <!-- 空状态显示 -->
+  <div class="empty-state" id="emptyState">
     <div class="empty-icon">🗂️</div>
-    <button class="btn-add">+ 添加数据集</button>
+    <button class="btn-add" id="addBtn">+ 添加数据集</button>
   </div>
+
+  <!-- 上传后的文件列表展示区 -->
+  <div class="file-list" id="fileList"></div>
 </main>
 
 <script>
@@ -79,6 +95,60 @@ $("nav").innerHTML = NAV.map(([i, t, url]) =>
 $("nav").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   if (b.dataset.url && b.dataset.url !== "#") window.location.href = b.dataset.url;
+});
+
+
+// ================= 核心上传逻辑 =================
+
+const fileInput = $("fileInput");
+const addBtn = $("addBtn");
+const emptyState = $("emptyState");
+const fileList = $("fileList");
+const countText = $("countText");
+
+// 1. 点击"添加数据集"按钮时，触发隐藏的文件选择框
+addBtn.addEventListener("click", () => {
+  fileInput.click();
+});
+
+// 2. 监听文件选择框的变化（当用户选好文件后）
+fileInput.addEventListener("change", (e) => {
+  const files = e.target.files;
+  if (files.length === 0) return;
+
+  // 隐藏空状态，显示列表
+  emptyState.style.display = "none";
+  fileList.style.display = "flex";
+
+  // 遍历用户选中的文件，生成列表项
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    
+    // 计算文件大小 (KB / MB)
+    let sizeStr = (file.size / 1024).toFixed(1) + " KB";
+    if (file.size > 1024 * 1024) {
+      sizeStr = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+    // 创建文件列表的 HTML 结构
+    const fileItem = document.createElement("div");
+    fileItem.className = "file-item";
+    fileItem.innerHTML = `
+      <div class="file-icon">📄</div>
+      <div class="file-info">
+        <div class="file-name">${file.name}</div>
+        <div class="file-size">${sizeStr}</div>
+      </div>
+    `;
+    fileList.appendChild(fileItem);
+  }
+
+  // 更新文件总数
+  const totalCount = fileList.children.length;
+  countText.textContent = `共 ${totalCount} 个数据集`;
+
+  // 清空 input 的值，保证下次选同一个文件也能触发 change 事件
+  fileInput.value = "";
 });
 </script>
 </body>
