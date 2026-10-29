@@ -5,44 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>zeroAI4S - 科学数据集</title>
 <style>
-  /* 基础样式和侧边栏样式 */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif; background: #fff; color: #2b2b2b; height: 100vh; display: flex; overflow: hidden; }
+  body { font-family: "Microsoft YaHei UI", sans-serif; background: #fff; color: #2b2b2b; height: 100vh; display: flex; overflow: hidden; }
   button { font-family: inherit; cursor: pointer; border: none; background: none; }
   
   .sidebar { width: 300px; flex-shrink: 0; background: #F1F4FA; padding: 24px 20px 16px; display: flex; flex-direction: column; }
   .side-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-  .logo { font-size: 34px; font-weight: 700; color: #1E2A78; letter-spacing: -1px; }
+  .logo { font-size: 34px; font-weight: 700; color: #1E2A78; }
   .logo span { color: #3B5BFF; }
-  .icon-btn { width: 40px; height: 40px; border-radius: 8px; font-size: 22px; color: #555; }
   .segment { display: flex; background: #E5E8EF; border-radius: 20px; padding: 4px; margin-bottom: 22px; }
-  .segment button { flex: 1; padding: 9px 0; font-size: 17px; color: #333; border-radius: 16px; }
+  .segment button { flex: 1; padding: 9px 0; font-size: 17px; border-radius: 16px; }
   .segment button.on { background: #fff; }
-  .nav button { width: 100%; text-align: left; font-size: 18px; color: #333; padding: 12px 14px; border-radius: 16px; margin-bottom: 6px; display: flex; gap: 14px; }
+  .nav button { width: 100%; text-align: left; font-size: 18px; padding: 12px 14px; border-radius: 16px; margin-bottom: 6px; }
   .nav button:hover { background: #E7EBF4; }
   .nav button.on { background: #fff; font-weight: 700; color: #111; }
-  .hline { height: 1px; background: #E3E6EE; }
   .side-foot { margin-top: auto; }
-  .user { font-size: 15px; color: #555; padding-top: 12px; }
-
-  /* 数据集专属主区域样式 */
-  .main { flex: 1; padding: 40px; display: flex; flex-direction: column; overflow-y: auto;}
-  .tabs { border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 15px;}
+  
+  .main { flex: 1; padding: 40px; display: flex; flex-direction: column; }
+  .tabs { border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 15px; }
   .tab-btn { font-size: 16px; font-weight: 600; color: #1D5CF5; border-bottom: 2px solid #1D5CF5; padding-bottom: 15px; margin-bottom: -16px; }
   .count { color: #999; font-size: 14px; margin-bottom: 40px; }
   
+  /* 中间空状态 */
   .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .empty-icon { font-size: 120px; margin-bottom: 30px; opacity: 0.2; }
-  .btn-add { background: #1D5CF5; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 15px; display: flex; align-items: center; gap: 6px;}
+  .empty-icon { width: 150px; margin-bottom: 30px; }
+  
+  /* 核心按钮 */
+  .btn-add { background: #1D5CF5; color: #fff; padding: 10px 24px; border-radius: 6px; font-size: 15px; border: none; cursor: pointer; z-index: 10; position: relative; }
   .btn-add:hover { background: #1448CC; }
 
-  /* 上传后的文件列表样式 */
-  .file-list { display: none; flex-direction: column; gap: 10px; }
-  .file-item { display: flex; align-items: center; padding: 15px 20px; background: #F7F8FA; border-radius: 8px; border: 1px solid #eee; }
+  /* 文件列表 */
+  #fileList { display: none; flex-direction: column; gap: 10px; width: 100%; max-width: 800px; margin: 0 auto; }
+  .file-item { display: flex; align-items: center; padding: 15px 20px; background: #F7F8FA; border: 1px solid #eee; border-radius: 8px; }
   .file-icon { font-size: 24px; margin-right: 15px; }
-  .file-info { flex: 1; }
-  .file-name { font-size: 15px; font-weight: 500; color: #333; }
-  .file-size { font-size: 13px; color: #999; margin-top: 4px; }
+  .file-name { font-size: 15px; font-weight: 500; }
 </style>
 </head>
 <body>
@@ -50,13 +46,10 @@
 <aside class="sidebar">
   <div class="side-head">
     <div class="logo">zero<span>AI4S</span></div>
-    <div><button class="icon-btn">⌕</button><button class="icon-btn">⇤</button></div>
   </div>
   <div class="segment"><button class="on">对话</button><button>科研</button></div>
   <div class="nav" id="nav"></div>
-  <div class="hline" style="margin-top:10px"></div>
-  <div class="side-sec" style="margin: 16px 0 0 4px; font-size: 16px; color: #8A8F9C;">对话</div>
-  <div class="side-foot"><div class="hline"></div><div class="user">👤 用户</div></div>
+  <div class="side-foot"><div style="font-size:15px;color:#555;padding-top:12px">👤 用户</div></div>
 </aside>
 
 <main class="main">
@@ -65,20 +58,29 @@
   </div>
   <div class="count" id="countText">共 0 个数据集</div>
 
-  <!-- 隐藏的真实上传输入框 -->
+  <!-- 隐藏的文件上传输入框 -->
   <input type="file" id="fileInput" multiple style="display: none;">
 
-  <!-- 空状态显示 -->
+  <!-- 空状态容器 -->
   <div class="empty-state" id="emptyState">
-    <div class="empty-icon">🗂️</div>
-    <button class="btn-add" id="addBtn">+ 添加数据集</button>
+    <!-- 随便用个 SVG 画个文件夹，避免没图 -->
+    <svg class="empty-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 30 C10 25 15 20 20 20 L40 20 L45 30 L80 30 C85 30 90 35 90 40 L90 80 C90 85 85 90 80 90 L20 90 C15 90 10 85 10 80 Z" fill="#FDF0D5"/>
+      <circle cx="50" cy="55" r="10" fill="#FFB3BA"/>
+      <circle cx="65" cy="40" r="8" fill="#BAE1FF"/>
+      <circle cx="35" cy="45" r="6" fill="#BAFFC9"/>
+    </svg>
+    
+    <!-- 绑定了 onclick 事件的按钮 -->
+    <button class="btn-add" onclick="document.getElementById('fileInput').click()">+ 添加数据集</button>
   </div>
 
-  <!-- 上传后的文件列表展示区 -->
-  <div class="file-list" id="fileList"></div>
+  <!-- 文件列表 -->
+  <div id="fileList"></div>
 </main>
 
 <script>
+// 渲染左侧导航
 const NAV = [
   ["💬","新对话", "#"],
   ["📖","科学知识库", "library.html"],
@@ -88,7 +90,6 @@ const NAV = [
 ];
 const $ = id => document.getElementById(id);
 
-// 渲染导航，高亮"科学数据集"
 $("nav").innerHTML = NAV.map(([i, t, url]) =>
   `<button class="${t === "科学数据集" ? "on" : ""}" data-url="${url}">${i}&nbsp;&nbsp;${t}</button>`).join("");
 
@@ -97,58 +98,37 @@ $("nav").addEventListener("click", e => {
   if (b.dataset.url && b.dataset.url !== "#") window.location.href = b.dataset.url;
 });
 
-
-// ================= 核心上传逻辑 =================
-
-const fileInput = $("fileInput");
-const addBtn = $("addBtn");
-const emptyState = $("emptyState");
-const fileList = $("fileList");
-const countText = $("countText");
-
-// 1. 点击"添加数据集"按钮时，触发隐藏的文件选择框
-addBtn.addEventListener("click", () => {
-  fileInput.click();
-});
-
-// 2. 监听文件选择框的变化（当用户选好文件后）
-fileInput.addEventListener("change", (e) => {
+// 核心交互：当选中文件时
+document.getElementById('fileInput').addEventListener('change', function(e) {
   const files = e.target.files;
   if (files.length === 0) return;
 
-  // 隐藏空状态，显示列表
-  emptyState.style.display = "none";
-  fileList.style.display = "flex";
+  // 1. 隐藏空状态图标
+  document.getElementById('emptyState').style.display = 'none';
+  
+  // 2. 显示文件列表容器
+  const listContainer = document.getElementById('fileList');
+  listContainer.style.display = 'flex';
 
-  // 遍历用户选中的文件，生成列表项
+  // 3. 遍历选中的文件，生成标签
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     
-    // 计算文件大小 (KB / MB)
-    let sizeStr = (file.size / 1024).toFixed(1) + " KB";
-    if (file.size > 1024 * 1024) {
-      sizeStr = (file.size / (1024 * 1024)).toFixed(2) + " MB";
-    }
-
-    // 创建文件列表的 HTML 结构
-    const fileItem = document.createElement("div");
-    fileItem.className = "file-item";
-    fileItem.innerHTML = `
+    // 创建列表项
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
       <div class="file-icon">📄</div>
-      <div class="file-info">
-        <div class="file-name">${file.name}</div>
-        <div class="file-size">${sizeStr}</div>
-      </div>
+      <div class="file-name">${file.name} (${(file.size / 1024).toFixed(1)} KB)</div>
     `;
-    fileList.appendChild(fileItem);
+    listContainer.appendChild(item);
   }
 
-  // 更新文件总数
-  const totalCount = fileList.children.length;
-  countText.textContent = `共 ${totalCount} 个数据集`;
-
-  // 清空 input 的值，保证下次选同一个文件也能触发 change 事件
-  fileInput.value = "";
+  // 4. 更新计数
+  document.getElementById('countText').textContent = `共 ${listContainer.children.length} 个数据集`;
+  
+  // 清空 input，允许重复选择同一个文件
+  this.value = '';
 });
 </script>
 </body>
