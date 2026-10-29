@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zeroAI4S - 科学数据集</title>
+<style>
+  /* 基础样式和侧边栏样式 */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif; background: #fff; color: #2b2b2b; height: 100vh; display: flex; overflow: hidden; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  .sidebar { width: 300px; flex-shrink: 0; background: #F1F4FA; padding: 24px 20px 16px; display: flex; flex-direction: column; }
+  .side-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .logo { font-size: 34px; font-weight: 700; color: #1E2A78; letter-spacing: -1px; }
+  .logo span { color: #3B5BFF; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 8px; font-size: 22px; color: #555; }
+  .segment { display: flex; background: #E5E8EF; border-radius: 20px; padding: 4px; margin-bottom: 22px; }
+  .segment button { flex: 1; padding: 9px 0; font-size: 17px; color: #333; border-radius: 16px; }
+  .segment button.on { background: #fff; }
+  .nav button { width: 100%; text-align: left; font-size: 18px; color: #333; padding: 12px 14px; border-radius: 16px; margin-bottom: 6px; display: flex; gap: 14px; }
+  .nav button:hover { background: #E7EBF4; }
+  .nav button.on { background: #fff; font-weight: 700; color: #111; }
+  .hline { height: 1px; background: #E3E6EE; }
+  .side-foot { margin-top: auto; }
+  .user { font-size: 15px; color: #555; padding-top: 12px; }
+
+  /* 数据集专属主区域样式 */
+  .main { flex: 1; padding: 40px; display: flex; flex-direction: column; }
+  .tabs { border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 15px;}
+  .tab-btn { font-size: 16px; font-weight: 600; color: #1D5CF5; border-bottom: 2px solid #1D5CF5; padding-bottom: 15px; margin-bottom: -16px; }
+  .count { color: #999; font-size: 14px; margin-bottom: 40px; }
+  
+  .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .empty-icon { font-size: 120px; margin-bottom: 30px; opacity: 0.2; }
+  .btn-add { background: #1D5CF5; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 15px; display: flex; align-items: center; gap: 6px;}
+  .btn-add:hover { background: #1448CC; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="side-head">
+    <div class="logo">zero<span>AI4S</span></div>
+    <div><button class="icon-btn">⌕</button><button class="icon-btn">⇤</button></div>
+  </div>
+  <div class="segment"><button class="on">对话</button><button>科研</button></div>
+  <div class="nav" id="nav"></div>
+  <div class="hline" style="margin-top:10px"></div>
+  <div class="side-sec" style="margin: 16px 0 0 4px; font-size: 16px; color: #8A8F9C;">对话</div>
+  <div class="side-foot"><div class="hline"></div><div class="user">👤 用户</div></div>
+</aside>
+
+<main class="main">
+  <div class="tabs">
+    <button class="tab-btn">我的数据集</button>
+  </div>
+  <div class="count">共 0 个数据集</div>
+
+  <div class="empty-state">
+    <div class="empty-icon">🗂️</div>
+    <button class="btn-add">+ 添加数据集</button>
+  </div>
+</main>
+
+<script>
+const NAV = [
+  ["💬","新对话", "#"],
+  ["📖","科学知识库", "library.html"],
+  ["🗄","科学数据集", "data.html"],
+  ["🤖","科学工具", "tools.html"],
+  ["〰","科学应用", "index.html"]
+];
+const $ = id => document.getElementById(id);
+
+// 渲染导航，高亮"科学数据集"
+$("nav").innerHTML = NAV.map(([i, t, url]) =>
+  `<button class="${t === "科学数据集" ? "on" : ""}" data-url="${url}">${i}&nbsp;&nbsp;${t}</button>`).join("");
+
+$("nav").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.url && b.dataset.url !== "#") window.location.href = b.dataset.url;
+});
+</script>
+</body>
+</html>
